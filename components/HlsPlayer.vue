@@ -36,10 +36,17 @@ export default {
 
       if (this.$refs.videoList.getBoundingClientRect().top < 0) {
         this.isPlay = true
+        if (this.$refs.video !== undefined) {
+          if (this.$refs.video.src.includes('blob')) {
+            return
+          }
+        }
 
         if (Hls.isSupported()) {
           const hls = new Hls()
+
           hls.loadSource(this.iframe)
+
           hls.attachMedia(this.$refs.video)
         }
       }
@@ -48,6 +55,7 @@ export default {
           this.$refs.videoList.getBoundingClientRect().height <
         0
       ) {
+        console.log('get')
         this.isPlay = false
       }
     },
