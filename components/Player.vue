@@ -143,7 +143,6 @@
       src="@/assets/Video.mp4"
       ref="video"
       @click="handleVideoPlay"
-      autoplay
       playsinline
     >
       <track kind="captions" srclang="en" src="@/assets/subtitles.vtt" />
@@ -262,6 +261,17 @@ export default {
           break
       }
     })
+    const promise = this.video.play()
+    if (promise !== undefined) {
+      promise
+        .then((_) => {})
+        .catch((error) => {
+          this.video.muted = true
+          this.volumeLevel = 'muted'
+          this.volume.value = 0
+          this.video.play()
+        })
+    }
   },
 
   beforeDestroy() {
