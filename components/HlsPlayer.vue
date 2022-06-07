@@ -35,7 +35,6 @@ export default {
   methods: {
     ScrollTopVideoPlay() {
       if (!this.$refs.videoList) return
-      console.log(this.$refs.videoList.getBoundingClientRect())
       if (
         this.$refs.videoList.getBoundingClientRect().top +
           this.$refs.videoList.getBoundingClientRect().height <
