@@ -20,6 +20,7 @@
 </template>
 <script>
 import Hls from 'hls.js'
+import Vue from 'vue'
 
 export default {
   name: 'HlsPlayer',
@@ -27,14 +28,32 @@ export default {
   data() {
     return {
       isPlay: false,
-      isLoading: false,
+      bus: new Vue(),
     }
   },
+
   methods: {
     ScrollTopVideoPlay() {
       if (!this.$refs.videoList) return
+      console.log(this.$refs.videoList.getBoundingClientRect())
+      if (
+        this.$refs.videoList.getBoundingClientRect().top +
+          this.$refs.videoList.getBoundingClientRect().height <
+        150
+      ) {
+        this.isPlay = false
+        return
+      }
 
-      if (this.$refs.videoList.getBoundingClientRect().top < 0) {
+      if (
+        this.$refs.videoList.getBoundingClientRect().top >
+        this.$refs.videoList.getBoundingClientRect().height
+      ) {
+        this.isPlay = false
+        return
+      }
+
+      if (this.$refs.videoList.getBoundingClientRect().top < 200) {
         this.isPlay = true
         if (this.$refs.video !== undefined) {
           if (this.$refs.video.src.includes('blob')) {
@@ -44,19 +63,9 @@ export default {
 
         if (Hls.isSupported()) {
           const hls = new Hls()
-
           hls.loadSource(this.iframe)
-
           hls.attachMedia(this.$refs.video)
         }
-      }
-      if (
-        this.$refs.videoList.getBoundingClientRect().top +
-          this.$refs.videoList.getBoundingClientRect().height <
-        0
-      ) {
-        console.log('get')
-        this.isPlay = false
       }
     },
   },
@@ -64,9 +73,9 @@ export default {
   mounted() {
     window.addEventListener('scroll', this.ScrollTopVideoPlay)
   },
+  created() {},
 }
 
-console.log(window.getBo)
 // import Vue from 'vue'
 </script>
 

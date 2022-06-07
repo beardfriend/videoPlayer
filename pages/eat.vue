@@ -4,11 +4,11 @@
     <div class="player_list">
       <HlsPlayer
         v-for="item in data"
-        v-bind:iframe="item.play_url.hls.thumb"
-        v-bind:img="item.thumb_url"
-        v-bind:title="item.title"
-        v-bind:channel="item.channel.name"
-        v-bind:description="item.sub_title"
+        :iframe="item.play_url.hls.thumb"
+        :img="item.thumb_url"
+        :title="item.title"
+        :channel="item.channel.name"
+        :description="item.sub_title"
       ></HlsPlayer>
     </div>
     <Footer></Footer>
@@ -17,11 +17,15 @@
 
 <script>
 import axios from 'axios'
+import Hls from 'hls.js'
+import Vue from 'vue'
+
 export default {
   name: 'EatPage',
   data() {
     return {
       data: [],
+      bus: new Vue(),
     }
   },
   mounted() {
