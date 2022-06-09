@@ -1,15 +1,18 @@
 <template>
   <div class="main">
     <Header></Header>
-    <div class="player_list">
-      <HlsPlayer
-        v-for="item in data"
-        :iframe="item.play_url.hls.thumb"
-        :img="item.thumb_url"
-        :title="item.title"
-        :channel="item.channel.name"
-        :description="item.sub_title"
-      ></HlsPlayer>
+    <div style="min-height: 100vh">
+      <div class="player_list">
+        <HlsPlayer
+          v-for="item in data"
+          :iframe="item.play_url.hls.thumb"
+          :img="item.thumb_url"
+          :title="item.title"
+          :channel="item.channel.name"
+          :description="item.sub_title"
+          :profile="item.channel.channel_profile_img"
+        ></HlsPlayer>
+      </div>
     </div>
     <Footer></Footer>
   </div>
@@ -18,6 +21,7 @@
 <script>
 import axios from 'axios'
 import Hls from 'hls.js'
+import BootstrapVue from 'bootstrap-vue'
 import Vue from 'vue'
 
 export default {
@@ -25,7 +29,6 @@ export default {
   data() {
     return {
       data: [],
-      bus: new Vue(),
     }
   },
   mounted() {
@@ -57,13 +60,38 @@ export default {
   padding: 0;
 }
 .player_list {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  padding: 0 10%;
+  margin: 0 auto;
+  max-width: 1650px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 80px 0;
+  width: 100%;
+  padding: 100px 0;
   position: relative;
-  min-height: 300vh;
-  margin: 0;
+}
+@media (1370px <= width <= 1650px) {
+  .player_list {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (927px <= width <= 1369px) {
+  .player_list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (639px <= width <= 926px) {
+  .player_list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (width <= 638px) {
+  .player_list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 }
 </style>

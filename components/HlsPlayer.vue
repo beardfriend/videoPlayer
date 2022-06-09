@@ -1,6 +1,6 @@
 <template>
-  <div ref="videoList" class="list">
-    <div ref="videoContainer" class="video">
+  <div ref="videoList" class="hlsplayer-container">
+    <div ref="videoContainer" class="hlsplayer-box">
       <video
         ref="video"
         :src="this.iframe"
@@ -8,13 +8,16 @@
         muted
         v-if="isPlay"
       ></video>
-
       <img :src="this.img" v-else />
     </div>
     <div class="des">
-      <p>{{ this.title }}</p>
-      <p>{{ this.channel }}</p>
-      <p class="description">{{ this.description }}</p>
+      <div>
+        <img class="profile" :src="this.profile" />
+      </div>
+      <div>
+        <p>{{ this.title }}</p>
+        <p>{{ this.channel }}</p>
+      </div>
     </div>
   </div>
 </template>
@@ -24,7 +27,7 @@ import Vue from 'vue'
 
 export default {
   name: 'HlsPlayer',
-  props: ['title', 'description', 'channel', 'img', 'iframe'],
+  props: ['title', 'description', 'channel', 'img', 'iframe', 'profile'],
   data() {
     return {
       isPlay: false,
@@ -79,29 +82,51 @@ export default {
 </script>
 
 <style>
-.list {
+.hlsplayer-container {
   display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 300px;
+  height: 12rem;
+}
+
+@media (width <= 638px) {
+}
+
+.profile {
+  border: 2px solid red;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+}
+.list {
   gap: 10px;
   width: 100%;
   height: 12rem;
-  margin-top: 20px;
+}
+
+.des {
+  width: 100%;
+  display: flex;
+  gap: 10px;
 }
 
 .description {
   color: gray;
 }
-p:not(:first-child) {
-  margin-top: 10px;
+p {
+  margin: 0;
+  padding: 0;
+  margin-top: 3px;
 }
 
 img {
-  max-width: 300px;
+  width: 100%;
   height: 170px;
 }
+
 video {
   background: gray;
-  max-width: 300px;
-  min-width: 300px;
   height: 170px;
   width: 100%;
 }
